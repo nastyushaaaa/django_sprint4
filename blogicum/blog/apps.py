@@ -1,4 +1,4 @@
-from django.apps import AppConfig  # type: ignore[import-untyped]
+from django.apps import AppConfig
 
 
 class BlogConfig(AppConfig):

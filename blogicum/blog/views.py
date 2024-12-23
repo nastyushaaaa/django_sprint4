@@ -1,3 +1,7 @@
+# Настраиваем пагинатор на 10 позиций
+# Пагинатор на главную, страницу пользователя и страницу категории
+# Для реализации функций используем FBV, CBV, миксины
+
 from datetime import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,7 +14,6 @@ from django.views.generic import (
 
 from .models import Category, Comment, Post, User
 from .forms import CommentForm, PostForm, UserForm
-
 
 PAGINATOR_POST = 10
 PAGINATOR_CATEGORY = 10

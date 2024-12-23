@@ -1,5 +1,6 @@
-from django.shortcuts import render  # type: ignore[import-untyped]
-# from django.http import HttpResponse  # type: ignore[import-untyped]
+# Подключение шаблонов кастомных страниц для ошибок с помощью view-классов
+
+from django.shortcuts import render
 from django.views.generic import TemplateView
 
 

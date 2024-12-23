@@ -1,10 +1,13 @@
-from django.urls import path  # type: ignore[import-untyped]
+# Добавлены пути, связанные с возможностью авторизации
+# Действия с постами, комментариями, профилем
+
+from django.urls import path
 
 from . import views
 
-app_name: str = 'blog'
+app_name = 'blog'
 
-urlpatterns: list[path] = [
+urlpatterns = [
     path('', views.PostListView.as_view(), name='index'),
     path('posts/<int:post_id>/', views.PostDetailView.as_view(),
          name='post_detail'),

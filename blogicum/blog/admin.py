@@ -1,5 +1,6 @@
-from django.contrib import admin  # type: ignore[import-untyped]
+from django.contrib import admin
 
+# Register your models here.
 from .models import Category, Location, Post, Comment
 
 admin.site.empty_value_display = 'Не задано'
@@ -54,7 +55,7 @@ class CommentAdmin(admin.ModelAdmin):
     list_display_links = ('text',)
 
 
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Location, LocationAdmin)
 admin.site.register(Post, PostAdmin)
+admin.site.register(Location, LocationAdmin)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Comment, CommentAdmin)

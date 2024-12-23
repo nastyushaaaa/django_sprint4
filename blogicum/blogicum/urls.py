@@ -1,14 +1,16 @@
-from django.contrib import admin  # type: ignore[import-untyped]
+# Подключаем django.contrib.auth.urls для работы с авторизацией
+# Создаем путь регистрации
+# Настраиваем обработчики для отображения страниц ошибок
+
+from django.contrib import admin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView
-from django.urls import include, path, reverse_lazy
+from django.urls import path, include, reverse_lazy
 
-urlpatterns: list[path] = [
+urlpatterns = [
     path('admin/', admin.site.urls),
+    path("pages/", include('pages.urls')),
     path('', include('blog.urls')),
-    # path('posts/', include('blog.urls')),
-    # path('category/', include('blog.urls')),
-    path('pages/', include('pages.urls')),
     path('auth/', include('django.contrib.auth.urls')),
     path(
         'auth/registration/',
