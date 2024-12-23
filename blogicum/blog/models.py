@@ -133,7 +133,7 @@ class Post(PublishedCreated):
             f'{self.text[:50]} - {self.pub_date} '
             f'{self.location.name[:30]} - {self.category.title[:30]}'
         )
- 
+
 
 class Comment(models.Model):
     """
