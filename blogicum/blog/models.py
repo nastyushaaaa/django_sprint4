@@ -1,14 +1,22 @@
+# Модели данных для блога:
+# PublishedCreated: добавление поля для отметки о публикации и времени создания
+# Category: категория публикации
+# Location: местоположение публикаци
+# Post: публикация с добавлением изображения, категории и местоположения
+# Comment: комментарий для публикации
+
+
 from django.db import models  # type: ignore[import-untyped]
 from django.contrib.auth import get_user_model  # type: ignore[import-untyped]
 
-from .querysets import CustomQuerySet
+# from .querysets import CustomQuerySet
 
 User = get_user_model()
 
 
-class BaseModel(models.Model):
+class PublishedCreated(models.Model):
     """
-    Базовая модель.
+    Модель для добавления полей отметки о публикации и времени создания
 
     is_published - флаг Опубликовано.
     created_at - дата создания записи в БД.
@@ -26,7 +34,7 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Category(BaseModel):
+class Category(PublishedCreated):
     """
     Категория поста.
 
@@ -49,10 +57,12 @@ class Category(BaseModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title
+        return (
+            f'{self.title[:30]} - {self.description[:30]} - {self.slug}'
+        )
 
 
-class Location(BaseModel):
+class Location(PublishedCreated):
     """
     Место, связанное с постом.
 
@@ -66,10 +76,10 @@ class Location(BaseModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name
+        return self.name[:30]
 
 
-class Post(BaseModel):
+class Post(PublishedCreated):
     """
     Модель поста.
 
@@ -109,7 +119,8 @@ class Post(BaseModel):
         related_name='posts_for_category',
         verbose_name='Категория',
     )
-    objects = CustomQuerySet.as_manager()
+    image = models.ImageField('Изображение', upload_to='post_images',
+                              blank=True)
 
     class Meta:
         verbose_name = 'публикация'
@@ -117,4 +128,39 @@ class Post(BaseModel):
         ordering = ('-pub_date', 'title')
 
     def __str__(self):
-        return self.title
+        return (
+            f'{(self.author.get_username())[:30]} - {self.title[:30]} '
+            f'{self.text[:50]} - {self.pub_date} '
+            f'{self.location.name[:30]} - {self.category.title[:30]}'
+        )
+    
+
+class Comment(models.Model):
+    """
+    Модель комментария для публикаций
+    Атрибуты:
+            text - текст комментария
+            created_at - дата и время добавления комментария
+            author - связь с пользователем, создавшим комментарий
+            post - связь с публикацией, к которой относится комментарий
+    """
+
+    text = models.TextField('Текст')
+    created_at = models.DateTimeField(
+        auto_now_add=True, verbose_name='Добавлено'
+    )
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        verbose_name='Автор публикации',
+        related_name='comments'
+    )
+    post = models.ForeignKey(
+        Post, on_delete=models.CASCADE,
+        verbose_name='Публикация',
+        related_name='comments'
+    )
+
+    class Meta:
+        verbose_name = 'коментарий'
+        verbose_name_plural = 'коментарии'
+        ordering = ('created_at',)
