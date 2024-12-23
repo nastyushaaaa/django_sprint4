@@ -6,7 +6,21 @@ SECRET_KEY = 'django-insecure-57n&hxg!-mbo+z^)iqg3u9h9hs&0=ss^n-o_7&3!#n74u!5)b9
 
 DEBUG = True
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static_dev',
+]
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+
+CSRF_FAILURE_VIEW = 'pages.views.csrf_failure'
+
 ALLOWED_HOSTS: list = []
+
+TEMPLATES_DIR = BASE_DIR / 'templates'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
-    'blog.apps.BlogConfig'
+    'blog.apps.BlogConfig',
+    'django_bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -34,7 +49,7 @@ ROOT_URLCONF = 'blogicum.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,3 +103,15 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# мои настройки
+CSRF_FAILURE_VIEW = "pages.views.csrf_failure"
+
+MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "media/"
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "blog:index"
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
