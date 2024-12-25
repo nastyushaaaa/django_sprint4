@@ -56,9 +56,7 @@ class Category(PublishedCreated):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return (
-            f'{self.title[:30]} - {self.description[:30]} - {self.slug}'
-        )
+        return self.title
 
 
 class Location(PublishedCreated):
@@ -77,7 +75,7 @@ class Location(PublishedCreated):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:30]
+        return self.name
 
 
 class Post(PublishedCreated):
